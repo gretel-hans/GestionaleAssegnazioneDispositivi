@@ -57,7 +57,7 @@ public class DeviceAssignmentController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> updateDeviceAssignment(@RequestBody DeviceAssignment d, @PathVariable Long id) {
 		if(id==d.getId()) {
-			return new ResponseEntity<>(dvaService.createOrUpdateAssignment(d), HttpStatus.OK);			
+			return new ResponseEntity<>(dvaService.updateAssignment(d), HttpStatus.OK);			
 		}else
 			return new ResponseEntity<>("ERROR!! The device passed is not the same as the id specified in the URL", HttpStatus.OK);			
 	}

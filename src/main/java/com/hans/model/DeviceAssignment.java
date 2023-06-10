@@ -32,7 +32,7 @@ public class DeviceAssignment {
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	private User user;
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Device> device;
 	
 }

@@ -20,7 +20,7 @@ public class DeviceService {
 	@Autowired DevicePageableRepository dbPage;
 	
 	
-	public Device createOrUpdateDeice(Device d) {
+	public Device createOrUpdateDevice(Device d) {
 		
 		return db.save(d);
 	}
@@ -44,6 +44,19 @@ public class DeviceService {
 	
 	public boolean DeviceExists(Long id) {
 		if(db.existsById(id)) {
+			return true;
+		}else 
+			return false;
+	}
+	
+	boolean presenteDevice=false;
+	public boolean DeviceExistsObj(Device d) {
+		db.findAll().forEach(e->{
+			if(e.getCode().equals(d.getCode())&&e.getState().equals(d.getState())&&e.getType().equals(d.getType())&&e.getId()==d.getId()) {
+				presenteDevice=true;
+			}
+		});
+		if(presenteDevice) {
 			return true;
 		}else 
 			return false;

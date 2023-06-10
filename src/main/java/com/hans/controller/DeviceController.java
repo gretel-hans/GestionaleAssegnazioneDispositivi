@@ -46,14 +46,14 @@ public class DeviceController {
 	@PostMapping()
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Device> createDevices(@RequestBody Device d) {
-		return new ResponseEntity<>(deviceService.createOrUpdateDeice(d), HttpStatus.CREATED);
+		return new ResponseEntity<>(deviceService.createOrUpdateDevice(d), HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> updateDevices(@RequestBody Device d, @PathVariable Long id) {
 		if(id==d.getId()) {
-			return new ResponseEntity<>(deviceService.createOrUpdateDeice(d), HttpStatus.OK);			
+			return new ResponseEntity<>(deviceService.createOrUpdateDevice(d), HttpStatus.OK);			
 		}else
 			return new ResponseEntity<>("ERROR!! The device passed is not the same as the id specified in the URL", HttpStatus.OK);			
 	}

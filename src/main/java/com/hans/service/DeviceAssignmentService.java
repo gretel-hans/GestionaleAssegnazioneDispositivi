@@ -27,10 +27,10 @@ public class DeviceAssignmentService {
 		List<Device> listaDevice =new ArrayList<Device>();
 		//d.setDevice(null);
 		d.getDevice().forEach(device->{
-			if(device.getState().equals(DeviceState.Disponibile)) {
+			if(device.getState().equals(DeviceState.Disponibile) && DeviceDb.DeviceExistsObj(device)) {
 				listaDevice.add(device);
 				device.setState(DeviceState.Assegnato);
-				DeviceDb.createOrUpdateDeice(device);
+				DeviceDb.createOrUpdateDevice(device);
 			}
 		});
 		d.setDevice(listaDevice);
@@ -39,6 +39,11 @@ public class DeviceAssignmentService {
 		}else
 		db.save(d);
 		return true;
+	}
+	
+	public DeviceAssignment updateAssignment(DeviceAssignment d) {
+		
+		return db.save(d);
 	}
 	
 	public String deleteAssignment(Long id) {
@@ -72,4 +77,6 @@ public class DeviceAssignmentService {
 		}else 
 			return false;
 	}
+	
+
 }
