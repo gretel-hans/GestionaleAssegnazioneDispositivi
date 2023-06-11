@@ -3,6 +3,7 @@ package com.hans.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class UserService {
     	List<User> listaUtenti=db.findAll();
     	giaPresente=false;
     	listaUtenti.forEach(utente->{
-    		if(utente.getEmail().equals(u.getEmail()) && utente.getUsername().equals(u.getUsername())) {
+    		if(u.equals(utente)) {
     			giaPresente=true;    		
     			throw new EntityNotFoundException("ERROR!! User passed already exist!");
     		}
@@ -57,5 +58,23 @@ public class UserService {
     	}else 
     		return false;
     }
+    
+    boolean trovato;
+    public boolean UserExistsDb(User u) {
+    	trovato=false;
+    	db.findAll().forEach(e->{
+    		Example<User> example = Example.of(u);
+    		if(db.exists(example)) {
+    			trovato= true;
+    		}
+    		
+    	});
+    	if(!trovato) {
+    		return false;
+    	}else
+    		return true;
+    	
+    }
+    
     
 }

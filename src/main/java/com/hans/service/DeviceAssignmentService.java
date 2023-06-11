@@ -22,6 +22,7 @@ public class DeviceAssignmentService {
 	@Autowired DeviceAssignmentRepository db;
 	@Autowired DeviceAssignmentPageableRepository dbPage;
 	@Autowired DeviceService DeviceDb;
+	@Autowired UserService userDb;
 	
 	public boolean createOrUpdateAssignment(DeviceAssignment d) {
 		List<Device> listaDevice =new ArrayList<Device>();
@@ -34,22 +35,27 @@ public class DeviceAssignmentService {
 			}
 		});
 		d.setDevice(listaDevice);
-		if(listaDevice.size()==0) {
-			return false;
+		System.out.println(d.getUser());
+		if(listaDevice.size()!=0 && userDb.UserExistsDb(d.getUser())) {
+			db.save(d);
+			return true;
 		}else
-		db.save(d);
-		return true;
+		return false;
 	}
 	
 	public DeviceAssignment updateAssignment(DeviceAssignment d) {
-		
-		return db.save(d);
+		//List<Device> lista
+		if(AssignmentExists(d.getId())&&userDb.UserExists(d.getUser().getId())&& d.getDevice().size()>0) {
+		//	if(d.getDevice().forEach(e->{})
+			return db.save(d);
+		}else 
+			return null;
 	}
 	
 	public String deleteAssignment(Long id) {
 		if (AssignmentExists(id)) {
 			db.deleteById(id);
-			return "Assignment with id:"+id+" removed!";
+			return "Assignment with id: "+id+" removed!";
 		}else 
 			throw new EntityExistsException("ERROR!! Assignment passed doesn't exist!");
 		
@@ -78,5 +84,6 @@ public class DeviceAssignmentService {
 			return false;
 	}
 	
+
 
 }

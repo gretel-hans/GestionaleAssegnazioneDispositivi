@@ -44,7 +44,7 @@ public class User {
     // Il caricamento EAGER delle raccolte significa che vengono recuperate 
     // completamente nel momento in cui viene recuperato il loro genitore
     
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")

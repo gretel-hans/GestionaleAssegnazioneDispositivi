@@ -8,7 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -50,15 +52,22 @@ public class DeviceAssignmentController {
 				if(dvaService.createOrUpdateAssignment(d)) {
 					return new ResponseEntity<>(dvaService.findAssignment(d.getId()), HttpStatus.CREATED);
 				}else 
-					return new ResponseEntity<>("ERROR!! The devices passed were not available! ", HttpStatus.BAD_REQUEST);
+					return new ResponseEntity<>("ERROR!!", HttpStatus.BAD_REQUEST);
 	}
 	
 	@PutMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<?> updateDeviceAssignment(@RequestBody DeviceAssignment d, @PathVariable Long id) {
-		if(id==d.getId()) {
-			return new ResponseEntity<>(dvaService.updateAssignment(d), HttpStatus.OK);			
+	public ResponseEntity<?> updateDeviceAssignment(@RequestBody DeviceAssignment da, @PathVariable Long id) {
+		if(id==da.getId()&&dvaService.createOrUpdateAssignment(da)) {
+			
+			return new ResponseEntity<>(da, HttpStatus.OK);			
 		}else
-			return new ResponseEntity<>("ERROR!! The device passed is not the same as the id specified in the URL", HttpStatus.OK);			
+			return new ResponseEntity<>("ERROR!!", HttpStatus.BAD_REQUEST);			
+	}
+	
+	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<?> deleteDeviceAssignment(@PathVariable Long id) {
+	return new ResponseEntity<>(dvaService.deleteAssignment(id), HttpStatus.OK);
 	}
 }

@@ -29,7 +29,7 @@ public class DeviceAssignment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private User user;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
